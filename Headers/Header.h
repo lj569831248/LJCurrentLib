@@ -1,6 +1,5 @@
 //
 //  Header.h
-//  WeeXTemplate
 //
 //  Created by Jon on 2017/10/31.
 //  Copyright © 2017年 droi. All rights reserved.
@@ -14,12 +13,14 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Masonry/Masonry.h>
 #import <AFNetworking.h>
-#pragma mark category
+
+#pragma mark categorys
 #import "UITableView+Base.h"
 #import "UITableViewCell+Base.h"
 #import "UICollectionView+Base.h"
 #import "UICollectionViewCell+Base.h"
 
+#pragma mark tools
 #import "HUD.h"
 
 #endif /* Header_h */

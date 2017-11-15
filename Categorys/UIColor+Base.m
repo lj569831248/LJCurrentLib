@@ -1,6 +1,5 @@
 //
 //  UIColor+Base.m
-//  ruhang
 //
 //  Created by Jon on 2016/11/24.
 //  Copyright © 2016年 Droi. All rights reserved.
