@@ -19,8 +19,8 @@
 #import "UITableViewCell+Base.h"
 #import "UICollectionView+Base.h"
 #import "UICollectionViewCell+Base.h"
-
+#import "NSDictionary+Base.h"
 #pragma mark tools
 #import "HUD.h"
-
+#import "MyRequest.h"
 #endif /* Header_h */

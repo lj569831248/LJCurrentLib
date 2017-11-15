@@ -10,4 +10,17 @@
 
 @interface NSString (Time)
 
+
+/**
+ 获取时间戳
+ @return 13位 精确到毫秒
+ */
++ (NSString *)getTimeStamp;
+
+/**
+ 获取时间戳
+ @return 10位 精确到秒
+ */
++ (NSString *)getSecondTimestamp;
+
 @end
