@@ -55,26 +55,26 @@
         //  NSLog(@"%@,%@",key,[obj class]);
         NSString *className = NSStringFromClass([obj class]) ;
         if ([className isEqualToString:@"__NSCFString"] | [className isEqualToString:@"__NSCFConstantString"] | [className isEqualToString:@"NSTaggedPointerString"]) {
-            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\\\\n",key];
+            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\n",key];
         }else if ([className isEqualToString:@"__NSCFArray"] |
                   [className isEqualToString:@"__NSArray0"] |
                   [className isEqualToString:@"__NSArrayI"]){
-            [strM appendFormat:@"@property (nonatomic, strong) NSArray *%@;\\\\n",key];
+            [strM appendFormat:@"@property (nonatomic, strong) NSArray *%@;\n",key];
         }else if ([className isEqualToString:@"__NSCFDictionary"]){
-            [strM appendFormat:@"@property (nonatomic, strong) NSDictionary *%@;\\\\n",key];
+            [strM appendFormat:@"@property (nonatomic, strong) NSDictionary *%@;\n",key];
         }else if ([className isEqualToString:@"__NSCFNumber"]){
-            [strM appendFormat:@"@property (nonatomic, copy) NSNumber *%@;\\\\n",key];
+            [strM appendFormat:@"@property (nonatomic, copy) NSNumber *%@;\n",key];
         }else if ([className isEqualToString:@"__NSCFBoolean"]){
-            [strM appendFormat:@"@property (nonatomic, assign) BOOL   %@;\\\\n",key];
+            [strM appendFormat:@"@property (nonatomic, assign) BOOL   %@;\n",key];
         }else if ([className isEqualToString:@"NSDecimalNumber"]){
-            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\\\\n",[NSString stringWithFormat:@"%@",key]];
+            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\n",[NSString stringWithFormat:@"%@",key]];
         }
         else if ([className isEqualToString:@"NSNull"]){
-            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\\\\n",[NSString stringWithFormat:@"%@",key]];
+            [strM appendFormat:@"@property (nonatomic, copy) NSString *%@;\n",[NSString stringWithFormat:@"%@",key]];
         }else if ([className isEqualToString:@"__NSArrayM"]){
-            [strM appendFormat:@"@property (nonatomic, strong) NSMutableArray *%@;\\\\n",[NSString stringWithFormat:@"%@",key]];
+            [strM appendFormat:@"@property (nonatomic, strong) NSMutableArray *%@;\n",[NSString stringWithFormat:@"%@",key]];
         }
     }];
-    NSLog(@"\\\\n\\\\n%@\\\\n",strM);
+    NSLog(@"%@",strM);
 }
 @end
