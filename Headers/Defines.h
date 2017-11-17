@@ -4,6 +4,16 @@
 //  Created by Jon on 2017/11/15.
 //  Copyright © 2017年 droi. All rights reserved.
 //
+#pragma mark - override
+
+#pragma mark - getter / setter
+
+#pragma mark - notification
+
+#pragma mark - delegate dataSource protocol
+
+#pragma mark - private
+
 
 #ifndef Defines_h
 #define Defines_h
