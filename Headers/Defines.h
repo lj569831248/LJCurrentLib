@@ -26,7 +26,8 @@
 #define L(key) NSLocalizedString(key, nil)
 #define INFO_PLIST [[NSBundle mainBundle] infoDictionary]
 #define USER_DEFAULTS [NSUserDefaults standardUserDefaults]
-
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
 
 #define IOS_VERSION [[UIDevice currentDevice].systemVersion floatValue]
 #define ROOT_VC [[UIApplication sharedApplication] keyWindow].rootViewController

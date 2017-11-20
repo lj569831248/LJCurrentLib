@@ -29,7 +29,6 @@
 }
 
 - (void)pushViewControllerAndHideBottomBar:(UIViewController *)viewController{
-    
     viewController.hidesBottomBarWhenPushed = YES;
     [self pushViewController:viewController animated:YES];
 }
