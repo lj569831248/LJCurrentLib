@@ -18,4 +18,11 @@
  */
 + (void)replaceMethod:(Class)class originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;
 
+
+/**
+ 获取成员变量名与类型 数组
+ @return [{变量名:类型},{变量名:类型}]
+ */
++ (NSArray *)getIvarNamesAndTypes;
+
 @end

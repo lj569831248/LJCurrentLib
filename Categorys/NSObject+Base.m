@@ -25,4 +25,31 @@
     class_replaceMethod(class,swizzledSelector,originalIMP,originalType);
 }
 
+/*
+ 原始为
+ name = "_series";
+ type = "@\"NSString\"";
+ 转换为
+ name = series;
+ type = NSString;
+*/
++ (NSArray *)getIvarNamesAndTypes{
+    unsigned int outCount = 0;
+    NSMutableArray *mArray = [[NSMutableArray alloc] init];
+    Ivar * ivars = class_copyIvarList([self class], &outCount);
+    for (unsigned int i = 0; i < outCount; i ++) {
+        Ivar ivar = ivars[i];
+        const char * name = ivar_getName(ivar);
+        const char * type = ivar_getTypeEncoding(ivar);
+        NSString *typeS = [[NSString alloc] initWithCString:type encoding:NSUTF8StringEncoding];
+        NSString *nameS = [[NSString alloc] initWithCString:name encoding:NSUTF8StringEncoding];
+        typeS = [typeS stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        typeS = [typeS stringByReplacingOccurrencesOfString:@"@" withString:@""];
+        nameS = [nameS substringFromIndex:1];
+        NSDictionary *dict = @{@"name":nameS,@"type":typeS};
+        [mArray addObject:dict];
+    }
+    free(ivars);
+    return [mArray copy];
+}
 @end

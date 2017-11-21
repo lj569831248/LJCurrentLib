@@ -15,6 +15,7 @@
 #import <AFNetworking.h>
 
 #pragma mark categorys
+#import "NSObject+Base.h"
 #import "UITableView+Base.h"
 #import "UITableViewCell+Base.h"
 #import "UICollectionView+Base.h"

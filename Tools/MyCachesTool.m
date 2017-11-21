@@ -7,7 +7,7 @@
 //
 
 #import "MyCachesTool.h"
-
+#import "MySandboxPath.h"
 @implementation MyCachesTool
 
 + (long long) fileSizeAtPath:(NSString*) filePath{
@@ -50,7 +50,7 @@
 
 + (void)clearCaches:(void (^)(BOOL))callback{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        BOOL result = [self clearCache:[self getCachePath]];
+        BOOL result = [self clearCache:[MySandboxPath cachesPath:nil]];
         dispatch_async(dispatch_get_main_queue(), ^{
             SAFE_BLOCK(callback,result);
         });
@@ -58,11 +58,7 @@
 }
 
 + (float)getCacheSize{
-   return  [self folderSizeAtPath:[self getCachePath]];
+   return  [self folderSizeAtPath:[MySandboxPath cachesPath:nil]];
 }
-+ (NSString *)getCachePath{
-    NSString *path = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
-    NSLog(@"缓存存放路径%@",path);
-    return path;
-}
+
 @end

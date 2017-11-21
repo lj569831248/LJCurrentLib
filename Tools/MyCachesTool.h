@@ -12,7 +12,6 @@
 
 + (float)getCacheSize;
 + (void)clearCaches:(void (^)(BOOL))callback;
-+ (NSString *)getCachePath;
 
 + (long long) fileSizeAtPath:(NSString*) filePath;
 + (float) folderSizeAtPath:(NSString*) folderPath;
