@@ -8,8 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <FMDB.h>
-@interface MyDB : FMDatabase
+FOUNDATION_EXPORT NSString* const QUERY_EQ;
+FOUNDATION_EXPORT NSString* const QUERY_NEQ;
 
+@interface MyDBQuery : NSObject
+
++ (MyDBQuery *)createByTableName:(NSString *)tableName;
+
+- (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(NSString*)value;
+
+- (NSString *)selectSQL;
+- (NSString *)deleteSQL;
+@end
+
+@interface MyDB : FMDatabase
 /**
  用户数据库,存放在 Documents/DB
  */
@@ -18,9 +30,18 @@
 /**
  缓存数据库,存放在 Library/Caches/DB
  */
-+ (instancetype)standardCatchsDataBase;
++ (instancetype)standardCachesDataBase;
+
+- (BOOL)createTableIfNotExists:(NSString *)tableName model:(Class)cls;
+- (BOOL)addModel:(id)model toTable:(NSString *)tableName;
+- (NSArray *)selectByQuery:(MyDBQuery *)query model:(Class)cls;
+- (BOOL)deleteByQuery:(MyDBQuery *)query;
+
 
 + (NSString *)userDataBasePath:(NSString *)option;
-+ (NSString *)catchsDataBasePath:(NSString *)option;
+
++ (NSString *)cachesDataBasePath:(NSString *)option;
 
 @end
+
+

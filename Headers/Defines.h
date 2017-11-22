@@ -18,6 +18,10 @@
 #ifndef Defines_h
 #define Defines_h
 
+//DB 相关
+#define USER_DB [MyDB standardUserDataBase]
+#define CACHES_DB [MyDB standardCachesDataBase]
+
 //safe 相关
 #define SAFE_BLOCK(block,...) if(block){block(__VA_ARGS__);}  //宏定义
 #define kWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self;
