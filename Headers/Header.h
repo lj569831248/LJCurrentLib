@@ -12,7 +12,6 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Masonry/Masonry.h>
-#import <AFNetworking.h>
 
 #pragma mark categorys
 #import "NSObject+Base.h"
@@ -24,6 +23,5 @@
 #import "UINavigationController+Base.h"
 #pragma mark tools
 #import "HUD.h"
-#import "MyRequest.h"
 #import "MyDB.h"
 #endif /* Header_h */

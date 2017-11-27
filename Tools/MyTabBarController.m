@@ -8,7 +8,7 @@
 
 #import "MyTabBarController.h"
 #import "UIColor+Base.h"
-
+#import "MyTabBar.h"
 @interface MyTabBarController ()
 
 @end
@@ -20,6 +20,8 @@
     [self setupNav];
     NSArray *settingInfo = [INFO_PLIST valueForKey:@"TabBarItems"];
     self.viewControllers = [self setupTabBarVC:settingInfo];
+    [self setValue:[[MyTabBar alloc] init] forKey:@"tabBar"];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +60,7 @@
     }
     return tabbarItmeArray;
 }
+
 
 - (void)setupNav{
     UIColor *baseColor = kColorFromRGBA(149, 0, 9, 1);
