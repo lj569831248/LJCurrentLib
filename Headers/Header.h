@@ -11,8 +11,8 @@
 #import <Foundation/Foundation.h>
 
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <Masonry/Masonry.h>
-#import <AFNetworking.h>
+//#import <Masonry/Masonry.h>
+//#import <AFNetworking.h>
 
 #pragma mark categorys
 #import "NSObject+Base.h"
