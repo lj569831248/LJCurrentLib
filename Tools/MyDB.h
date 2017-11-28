@@ -33,13 +33,15 @@ FOUNDATION_EXPORT NSString* const QUERY_NEQ;
 + (instancetype)standardCachesDataBase;
 
 - (BOOL)createTableIfNotExists:(NSString *)tableName model:(Class)cls;
+- (BOOL)deleteTable:(NSString *)tableName;
+- (BOOL)updateTable:(NSString *)tableName model:(id)defaultModel;
+
 - (BOOL)addModel:(id)model toTable:(NSString *)tableName;
 - (NSArray *)selectByQuery:(MyDBQuery *)query model:(Class)cls;
 - (BOOL)deleteByQuery:(MyDBQuery *)query;
 
 
 + (NSString *)userDataBasePath:(NSString *)option;
-
 + (NSString *)cachesDataBasePath:(NSString *)option;
 
 @end

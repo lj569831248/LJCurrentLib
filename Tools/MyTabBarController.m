@@ -8,18 +8,30 @@
 
 #import "MyTabBarController.h"
 #import "UIColor+Base.h"
-
+#import "MyTabBar.h"
 @interface MyTabBarController ()
-
+@property (assign, nonatomic)MyTabBarStyle style;
 @end
 
 @implementation MyTabBarController
 
+- (id)initWithStyle:(MyTabBarStyle)style{
+    if(self = [super init]){
+        _style = style;
+        if (_style == MyTabBarStyleCenterBtn) {
+            MyTabBar *tabBar = [[MyTabBar alloc] init];
+            [tabBar.centerBtn addTarget:self action:@selector(clickCenterBtn:) forControlEvents:UIControlEventTouchUpInside];
+            [self setValue:tabBar forKey:@"tabBar"];
+        }
+        NSArray *settingInfo = [INFO_PLIST valueForKey:@"TabBarItems"];
+        self.viewControllers = [self setupTabBarVC:settingInfo];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupNav];
-    NSArray *settingInfo = [INFO_PLIST valueForKey:@"TabBarItems"];
-    self.viewControllers = [self setupTabBarVC:settingInfo];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,12 +71,11 @@
     return tabbarItmeArray;
 }
 
-- (void)setupNav{
-    UIColor *baseColor = kColorFromRGBA(149, 0, 9, 1);
-    [[UINavigationBar appearance] setBarTintColor:baseColor];
-    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-//    //全局隐藏返回按钮Title
-//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+- (void)clickCenterBtn:(id)sender{
+    if (self.tabDelegate && [self.tabDelegate respondsToSelector:@selector(didChickCenterButton:)]) {
+        [self.tabDelegate didChickCenterButton:sender];
+    }
 }
+
+
 @end
