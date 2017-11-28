@@ -34,6 +34,7 @@
 #define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
 
 #define IOS_VERSION [[UIDevice currentDevice].systemVersion floatValue]
+#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)]?CGSizeEqualToSize(CGSizeMake(1125,2436),[[UIScreen mainScreen] currentMode].size):NO)
 #define ROOT_VC [[UIApplication sharedApplication] keyWindow].rootViewController
 #define kScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define kScreenHeight [[UIScreen mainScreen] bounds].size.height

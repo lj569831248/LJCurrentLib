@@ -72,6 +72,51 @@ static MyDB *cachesDataBase = nil;
         return NO;
 }
 
+- (BOOL)updateTable:(NSString *)tableName model:(id)defaultModel{
+    if ([self open] && defaultModel) {
+        Class modelClass = [defaultModel class];
+        //如果表不存在就直接创建表
+        if (![self tableExists:tableName]) {
+            return [self createTableIfNotExists:tableName model:modelClass];
+        }
+        NSArray *ivarNamesAndTypes = [modelClass getIvarNamesAndTypes];
+        //获取表中原先的所有的字段名 新的数据表中数据是否在老数据表中有 如果没有就添加
+        NSString *sqlStr = [NSString stringWithFormat:@"SELECT * FROM %@",tableName];
+        FMResultSet *result = [self executeQuery:sqlStr];
+        NSArray *oldNameArray = [[result columnNameToIndexMap] allKeys];
+        for (NSDictionary *dict in ivarNamesAndTypes) {
+            NSString *name = [dict valueForKey:@"name"];
+            if (![oldNameArray containsObject:[name lowercaseString]]) {
+                NSLog(@"新增字段:%@",name);
+                NSMutableString *sqlStr = [[NSMutableString alloc] init];
+                [sqlStr appendFormat:@"ALTER TABLE %@ ADD COLUMN %@ TEXT",tableName,name];
+                id value = [defaultModel valueForKey:name];
+                if (value) {
+                    [sqlStr appendFormat:@" DEFAULT '%@'",value];
+                }
+                BOOL alterResult = [self executeUpdate:sqlStr];
+                if (!alterResult) {
+                    NSLog(@"%@ 添加失败",name);
+                    return alterResult;
+                }
+            }
+
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)deleteTable:(NSString *)tableName{
+    if ([self open]) {
+        NSString *sqlStr = [NSString stringWithFormat:@"DROP TABLE %@",tableName];
+        BOOL result = [self executeUpdate:sqlStr];
+        return result;
+    }
+    return NO;
+}
+
+
 - (BOOL)addModel:(id)model toTable:(NSString *)tableName{
     if ([self open] && model) {
         NSArray *ivarNamesAndTypes = [[model class] getIvarNamesAndTypes];
@@ -119,12 +164,15 @@ static MyDB *cachesDataBase = nil;
                 NSString *dbValue = [resultSet stringForColumn:name];
                 
                 //对不同的数据类型做处理 目前我们只有做了字符串类型
-                //统一的存进去都为字符串,取出来的时候再通过字符串转换值
-                if ([type isEqualToString:@"NSNumber"]) {
-                    
+                //统一的存进去都为字符串,取出来的时候再通过字符串转换值 bool 类型 int 或 NSInteger
+                if ([type isEqualToString:@"NSNumber"] || [type isEqualToString:@"B"] || [type isEqualToString:@"i"] || [type isEqualToString:@"q"]) {
+                    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+                    NSNumber *numberValue = [f numberFromString:dbValue];
+                    [keyValueDict setValue:numberValue forKey:name];
                 }
-                
-                [keyValueDict setValue:dbValue forKey:name];
+                else{
+                    [keyValueDict setValue:dbValue forKey:name];
+                }
             }
             [model setValuesForKeysWithDictionary:keyValueDict];
             [resultArray addObject:model];

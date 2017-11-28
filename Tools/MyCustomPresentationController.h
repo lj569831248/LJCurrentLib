@@ -11,5 +11,5 @@
 @interface MyCustomPresentationController : UIPresentationController<UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) UIView *backgroudView;
-
+@property (assign, nonatomic) CGFloat contentHeight;
 @end

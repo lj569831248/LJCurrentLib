@@ -9,7 +9,6 @@
 #import "MyTabBar.h"
 
 @interface MyTabBar ()
-@property (nonatomic, strong) UIButton *centerBtn;
 
 @end
 
@@ -18,8 +17,6 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        // 设置tabBarItem选中状态时的颜色
-//        self.tintColor = [UIColor redColor];
         // 添加中间按钮到tabBar上
         [self addSubview:self.centerBtn];
     }
@@ -30,14 +27,11 @@
     if (_centerBtn == nil) {
         _centerBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 60)];
         [_centerBtn setImage:[UIImage imageNamed:@"CenterIcon"] forState:UIControlStateNormal];
-        [_centerBtn addTarget:self action:@selector(clickCenterBtn:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _centerBtn;
 }
 
-- (void)clickCenterBtn:(id)sender{
-    NSLog(@"11111");
-}
+
 
 - (void)layoutSubviews{
     [super layoutSubviews];
@@ -53,7 +47,12 @@
     CGFloat centerBtnWidth = CGRectGetWidth(self.centerBtn.frame);
     CGFloat centerBtnHeight = CGRectGetHeight(self.centerBtn.frame);
     // 设置中间按钮的位置，居中，凸起一丢丢
-    self.centerBtn.center = CGPointMake(barWidth / 2, barHeight - centerBtnHeight/2 - 5);
+    if (kDevice_Is_iPhoneX) {
+        self.centerBtn.center = CGPointMake(barWidth / 2, barHeight - centerBtnHeight/2 - 40);
+
+    }else{
+        self.centerBtn.center = CGPointMake(barWidth / 2, barHeight - centerBtnHeight/2 - 5);
+    }
     // 重新布局其他 tabBarItem
     // 平均分配其他 tabBarItem 的宽度
     CGFloat barItemWidth = (barWidth - centerBtnWidth) / tabBarButtonArray.count;

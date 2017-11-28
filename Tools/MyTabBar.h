@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+
 @interface MyTabBar : UITabBar
+@property (nonatomic, strong) UIButton *centerBtn;
 
 @end

@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, MyTabBarStyle) {
+    MyTabBarStyleDefault,
+    MyTabBarStyleCenterBtn,
+};
+
+@protocol MyTabBarDelegate <NSObject>
+@required
+- (void)didChickCenterButton:(UIButton *)button;
+@end
+
 @interface MyTabBarController : UITabBarController
+@property (weak, nonatomic)id<MyTabBarDelegate> tabDelegate;
+
+- (id)initWithStyle:(MyTabBarStyle)style;
 
 @end

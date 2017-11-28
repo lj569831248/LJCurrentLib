@@ -21,7 +21,7 @@
 #pragma mark UIViewControllerAnimatedTransitioning具体动画实现
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
     // 动画时长
-    return 0.45 ;
+    return 0.5;
 }
 
 // 核心，动画效果的实现
@@ -29,7 +29,6 @@
     // 1.获取源控制器、目标控制器、动画容器View
 //    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     __unused UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
     UIView *containerView = transitionContext.containerView;
     
     // 2. 获取源控制器、目标控制器 的View，但是注意二者在开始动画，消失动画，身份是不一样的：
@@ -112,6 +111,9 @@
 - (CGRect)frameOfPresentedViewInContainerView {
     // 这里直接按照想要的大小写死，其实这样写不好，在第二个Demo里，我们将按照苹果官方Demo，写灵活的获取方式。
     CGFloat height = 100.f;
+    if (self.contentHeight > 0) {
+        height = self.contentHeight;
+    }
     CGRect containerViewBounds = self.containerView.bounds;
     containerViewBounds.origin.y = containerViewBounds.size.height - height;
     containerViewBounds.size.height = height;
