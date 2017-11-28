@@ -23,4 +23,6 @@
  */
 + (NSString *)getSecondTimestamp;
 
++ (NSString *)getFormatterDate:(NSString *)timeStamp;
+
 @end
