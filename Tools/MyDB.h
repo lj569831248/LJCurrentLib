@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <FMDB.h>
+#import "MyDBModel.h"
 FOUNDATION_EXPORT NSString* const QUERY_EQ;
 FOUNDATION_EXPORT NSString* const QUERY_NEQ;
 
 @interface MyDBQuery : NSObject
-
+@property (copy, nonatomic, readonly)NSString *tableName;
 + (MyDBQuery *)createByTableName:(NSString *)tableName;
 - (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(NSString*)value;
 - (MyDBQuery *)orderBy:(NSArray *)keys;
@@ -41,6 +42,24 @@ FOUNDATION_EXPORT NSString* const QUERY_NEQ;
 - (BOOL)updateTable:(NSString *)tableName model:(id)defaultModel;
 
 - (BOOL)addModel:(id)model toTable:(NSString *)tableName;
+
+
+/**
+ 更新某条数据
+ @param model 一般这个数据是从数据库中查询下来之后需要做更新的数据,需要遵守MyDBModelDelegate,因为需要更加主键查询
+ @param tableName 表名
+ @return 结果
+ */
+- (BOOL)updateModel:(id<MyDBModelDelegate>)model toTable:(NSString *)tableName;
+
+/**
+ 更新符合 query 添加的所有数据
+ @param model 需要更新成这个model 的数据
+ @param query 条件
+ @return 结果
+ */
+- (BOOL)updateModel:(id)model byQuery:(MyDBQuery *)query;
+
 - (NSArray *)selectByQuery:(MyDBQuery *)query model:(Class)cls;
 - (BOOL)deleteByQuery:(MyDBQuery *)query;
 

@@ -47,13 +47,18 @@ static MyDB *cachesDataBase = nil;
 
 - (BOOL)createTableIfNotExists:(NSString *)tableName model:(Class)cls{
     if ([self open] && cls) {
+        NSString *primaryKey = nil;
+        //遵守了MyDBModelDelegate协议 且实现了方法,可以为其添加主键
+        if ([cls conformsToProtocol:@protocol(MyDBModelDelegate)] && [cls respondsToSelector:@selector(primaryKey)]) {
+            primaryKey = [cls primaryKey];
+        }
         NSArray *ivarNamesAndTypes = [cls getIvarNamesAndTypes];
         NSMutableString *keyValueStr = [[NSMutableString alloc] init];
         for (NSDictionary *dict in ivarNamesAndTypes) {
             NSString *type = [dict valueForKey:@"type"];
             NSString *name = [dict valueForKey:@"name"];
             [keyValueStr appendString:name];
-            // 目前 NSNumber 类型也用 TEXT, 后期再添加不同类型
+            // 目前 NSNumber 基础数据类型 类型也用 TEXT, 后期再添加不同类型
             if ([type isEqualToString:@"NSString"]) {
                 [keyValueStr appendFormat:@" TEXT"];
             }else if ([type isEqualToString:@"NSNumber"]){
@@ -61,6 +66,10 @@ static MyDB *cachesDataBase = nil;
             }else{
                 [keyValueStr appendFormat:@" TEXT"];
             }
+            if (primaryKey && [primaryKey isEqualToString:name]) {
+                [keyValueStr appendFormat:@" PRIMARY KEY NOT NULL"];
+            }
+            
             [keyValueStr appendString:@","];
         }
         [keyValueStr deleteCharactersInRange:NSMakeRange(keyValueStr.length - 1, 1)];
@@ -141,6 +150,18 @@ static MyDB *cachesDataBase = nil;
     return NO;
 }
 
+- (BOOL)updateModel:(id)model byQuery:(MyDBQuery *)query{
+    if ([self open] && model) {
+        BOOL deleteResult = [self deleteByQuery:query];
+        if (deleteResult) {
+            BOOL insertResult = [self addModel:model toTable:query.tableName];
+            return insertResult;
+        }
+    }
+    return NO;
+}
+
+
 - (BOOL)deleteByQuery:(MyDBQuery *)query{
     if ([self open] && query){
         BOOL result = [self executeUpdate:query.deleteSQL];
@@ -160,19 +181,24 @@ static MyDB *cachesDataBase = nil;
             for (NSDictionary *dict in ivarNamesAndTypes) {
                 NSString *type = [dict valueForKey:@"type"];
                 NSString *name = [dict valueForKey:@"name"];
-                
                 NSString *dbValue = [resultSet stringForColumn:name];
-                
-                //对不同的数据类型做处理 目前我们只有做了字符串类型
-                //统一的存进去都为字符串,取出来的时候再通过字符串转换值 bool 类型 int 或 NSInteger
-                if ([type isEqualToString:@"NSNumber"] || [type isEqualToString:@"B"] || [type isEqualToString:@"i"] || [type isEqualToString:@"q"]) {
+                if ([type isEqualToString:@"NSString"]) {
+                    [keyValueDict setValue:dbValue forKey:name];
+                }else{
                     NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
                     NSNumber *numberValue = [f numberFromString:dbValue];
                     [keyValueDict setValue:numberValue forKey:name];
                 }
-                else{
-                    [keyValueDict setValue:dbValue forKey:name];
-                }
+//                //对不同的数据类型做处理 目前我们只有做了字符串类型
+//                //统一的存进去都为字符串,取出来的时候再通过字符串转换值 bool 类型 int uint 或 NSInteger NSUInteger
+//                if ([type isEqualToString:@"NSNumber"] || [type isEqualToString:@"B"] || [type isEqualToString:@"i"] ||[type isEqualToString:@"I"] || [type isEqualToString:@"q"] || [type isEqualToString:@"Q"]) {
+//                    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+//                    NSNumber *numberValue = [f numberFromString:dbValue];
+//                    [keyValueDict setValue:numberValue forKey:name];
+//                }
+//                else{
+//                    [keyValueDict setValue:dbValue forKey:name];
+//                }
             }
             [model setValuesForKeysWithDictionary:keyValueDict];
             [resultArray addObject:model];
@@ -202,7 +228,6 @@ static MyDB *cachesDataBase = nil;
 @end
 
 @interface MyDBQuery ()
-@property (copy, nonatomic)NSString *tableName;
 @property (strong, nonatomic)NSMutableArray *statement;
 @property (strong, nonatomic)NSMutableArray *orderArray;
 @property (assign, nonatomic)BOOL isAsc;
@@ -220,6 +245,12 @@ static MyDB *cachesDataBase = nil;
     MyDBQuery *query = [[MyDBQuery alloc] init];
     query.tableName = tableName;
     return query;
+}
+
+- (void)setTableName:(NSString *)tableName{
+    if (_tableName != tableName) {
+        _tableName = tableName;
+    }
 }
 
 - (NSMutableArray *)statement{

@@ -7,7 +7,7 @@
 //
 
 #import "MyCustomPresentationController.h"
-
+#import "UIImage+color.h"
 @implementation MyCustomPresentationController
 
 #pragma mark - UIViewControllerTransitioningDelegate
@@ -21,7 +21,7 @@
 #pragma mark UIViewControllerAnimatedTransitioning具体动画实现
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
     // 动画时长
-    return 0.5;
+    return 0.4;
 }
 
 // 核心，动画效果的实现
@@ -63,16 +63,26 @@
 //跳转将要开始的时候调用
 // 可以在此方法创建和设置自定义动画所需的view
 - (void)presentationTransitionWillBegin{
-    self.backgroudView = [[UIView alloc] initWithFrame:self.containerView.bounds];
-    self.backgroudView.backgroundColor = [UIColor blackColor];
-    [self.containerView addSubview:self.backgroudView];
+    UIImageView *bgImgView = [[UIImageView alloc] initWithFrame:self.containerView.bounds];
+    bgImgView.image = [UIImage imageWithColor:[UIColor clearColor]];
+    self.backgroudView = bgImgView;
+    [self.containerView addSubview:bgImgView];
+    
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+    effectView.frame = bgImgView.bounds;
+    [bgImgView addSubview:effectView];
+    
+//    self.backgroudView = [[UIView alloc] initWithFrame:self.containerView.bounds];
+//    self.backgroudView.backgroundColor = [UIColor blackColor];
+//    [self.containerView addSubview:self.backgroudView];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dimmingViewTapped:)];
     [self.backgroudView addGestureRecognizer:tap];
     id<UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
-    self.backgroudView.alpha = 0;
+    effectView.alpha = 0.0f;
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self.backgroudView.alpha = 0.3f;
+         effectView.alpha = 1.0f;
     } completion:NULL];
 
 }
@@ -95,7 +105,7 @@
     id<UIViewControllerTransitionCoordinator> transitionCoordinator = self.presentingViewController.transitionCoordinator;
     
     [transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        self. backgroudView.alpha = 0.f;
+        self. backgroudView.alpha = 0.0f;
     } completion:NULL];
 }
 
@@ -110,7 +120,7 @@
 // 返回目标控制器Viewframe
 - (CGRect)frameOfPresentedViewInContainerView {
     // 这里直接按照想要的大小写死，其实这样写不好，在第二个Demo里，我们将按照苹果官方Demo，写灵活的获取方式。
-    CGFloat height = 100.f;
+    CGFloat height = kScreenHeight;
     if (self.contentHeight > 0) {
         height = self.contentHeight;
     }
