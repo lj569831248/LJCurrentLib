@@ -14,8 +14,12 @@ FOUNDATION_EXPORT NSString* const QUERY_NEQ;
 @interface MyDBQuery : NSObject
 
 + (MyDBQuery *)createByTableName:(NSString *)tableName;
-
 - (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(NSString*)value;
+- (MyDBQuery *)orderBy:(NSArray *)keys;
+- (MyDBQuery *)asc:(BOOL)asc;
+
+- (MyDBQuery *)limit:(int)limit;
+- (MyDBQuery *)offset:(int)offset;
 
 - (NSString *)selectSQL;
 - (NSString *)deleteSQL;

@@ -25,4 +25,5 @@
 
 + (NSString *)getFormatterDate:(NSString *)timeStamp;
 
+- (NSString *)getFormatterDate;
 @end

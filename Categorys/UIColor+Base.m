@@ -21,8 +21,7 @@
     return [NSString stringWithFormat:@"#%@%@%@", red, green, blue];
 }
 
-- (NSDictionary *)getRGBDictionary
-{
+- (NSDictionary *)getRGBDictionary{
     CGFloat r=0,g=0,b=0,a=0;
     if ([self respondsToSelector:@selector(getRed:green:blue:alpha:)]) {
         [self getRed:&r green:&g blue:&b alpha:&a];
@@ -70,7 +69,6 @@
     [[NSScanner scannerWithString:rString] scanHexInt:&r];
     [[NSScanner scannerWithString:gString] scanHexInt:&g];
     [[NSScanner scannerWithString:bString] scanHexInt:&b];
-    
     return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:1.0f];
 }
 @end

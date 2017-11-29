@@ -8,6 +8,8 @@
 
 #pragma mark - getter / setter
 
+#pragma mark - UI
+
 #pragma mark - notification
 
 #pragma mark - delegate dataSource protocol
@@ -30,6 +32,8 @@
 #define L(key) NSLocalizedString(key, nil)
 #define INFO_PLIST [[NSBundle mainBundle] infoDictionary]
 #define USER_DEFAULTS [NSUserDefaults standardUserDefaults]
+#define MY_DEFAULTS [MyDefaults standardDefaults]
+
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
 
@@ -50,4 +54,8 @@
 #define kBaseColor kColorFromHex(0X1296db)
 #define kColorFromHexA(s, a) [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 green:(((s & 0xFF00) >> 8))/255.0 blue:((s & 0xFF))/255.0 alpha:a]
 #define kColorFromRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+#define kColorFromRGB(r, g, b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
+
+//默认时间格式
+#define kDefaultDateFormat @"yyyy-MM-dd HH:mm:ss"
 #endif /* Defines_h */

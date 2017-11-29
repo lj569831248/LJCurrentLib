@@ -9,6 +9,7 @@
 #import "NSString+Time.h"
 
 @implementation NSString (Time)
+
 + (NSString *)getTimeStamp{
     NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
     long long int date = (long long int)(time * 1000 );
@@ -23,9 +24,13 @@
 
 + (NSString *)getFormatterDate:(NSString *)timeStamp{
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [formatter setDateFormat:[MY_DEFAULTS defaultDateFormat]];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp integerValue] / 1000];
     NSString *dateStr = [formatter stringFromDate:date];
     return dateStr;
+}
+
+- (NSString *)getFormatterDate{
+    return [NSString getFormatterDate:self];
 }
 @end

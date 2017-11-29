@@ -203,7 +203,11 @@ static MyDB *cachesDataBase = nil;
 
 @interface MyDBQuery ()
 @property (copy, nonatomic)NSString *tableName;
-@property (copy, nonatomic)NSMutableArray *statement;
+@property (strong, nonatomic)NSMutableArray *statement;
+@property (strong, nonatomic)NSMutableArray *orderArray;
+@property (assign, nonatomic)BOOL isAsc;
+@property (assign, nonatomic)int limit;
+@property (assign, nonatomic)int offset;
 
 @end
 
@@ -225,9 +229,36 @@ static MyDB *cachesDataBase = nil;
     return _statement;
 }
 
+- (NSMutableArray *)orderArray{
+    if (_orderArray == nil) {
+        _orderArray = [[NSMutableArray alloc] init];
+    }
+    return _orderArray;
+}
+
 - (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(NSString*)value{
     NSString *statement = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,value];
     [self.statement addObject:statement];
+    return self;
+}
+
+- (MyDBQuery *)orderBy:(NSArray *)keys{
+    [self.orderArray addObjectsFromArray:keys];
+    return self;
+}
+
+- (MyDBQuery *)asc:(BOOL)asc{
+    self.isAsc = asc;
+    return self;
+}
+
+- (MyDBQuery *)limit:(int)limit{
+    self.limit = limit;
+    return self;
+
+}
+- (MyDBQuery *)offset:(int)offset{
+    self.offset = offset;
     return self;
 }
 
@@ -240,6 +271,23 @@ static MyDB *cachesDataBase = nil;
             [sqlStr appendString:statementStr];
         }
     }
+    if (self.orderArray.count > 0) {
+        [sqlStr appendString:@" ORDER BY "];
+        for (NSString *orderStr in self.orderArray) {
+            [sqlStr appendString:orderStr];
+            [sqlStr appendString:@","];
+
+        }
+        [sqlStr deleteCharactersInRange:NSMakeRange(sqlStr.length - 1, 1)];
+        self.isAsc?[sqlStr appendString:@" ASC"]:[sqlStr appendString:@" DESC"];
+    }
+    if (self.limit > 0) {
+        [sqlStr appendFormat:@" LIMIT %ld",(long)self.limit];
+    }
+    if (self.offset > 0) {
+        [sqlStr appendFormat:@" OFFSET %ld",(long)self.offset];
+    }
+    NSLog(@"select sql: %@",sqlStr);
     return [sqlStr copy];
 }
 
