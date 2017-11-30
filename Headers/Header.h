@@ -12,7 +12,6 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Masonry/Masonry.h>
-
 #pragma mark categorys
 #import "NSObject+Base.h"
 #import "UITableView+Base.h"

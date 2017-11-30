@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (Base)
-
 /**
  利用 runtime 替换方法
  @param class 类

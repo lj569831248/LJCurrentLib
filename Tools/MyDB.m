@@ -10,6 +10,7 @@
 @implementation MyDB
 NSString *const QUERY_EQ        = @"=";
 NSString *const QUERY_NEQ       = @"!=";
+NSString *const QUERY_LIKE      = @"LIKE";
 
 static NSString *userDBName   = @"UserDB.db";
 static NSString *cachesDBName = @"CachesDB.db";
@@ -150,13 +151,21 @@ static MyDB *cachesDataBase = nil;
     return NO;
 }
 
-- (BOOL)updateModel:(id)model byQuery:(MyDBQuery *)query{
-    if ([self open] && model) {
-        BOOL deleteResult = [self deleteByQuery:query];
-        if (deleteResult) {
-            BOOL insertResult = [self addModel:model toTable:query.tableName];
-            return insertResult;
-        }
+- (BOOL)updateModel:(id<MyDBModelDelegate>)model toTable:(NSString *)tableName{
+    if (model && [model conformsToProtocol:@protocol(MyDBModelDelegate)]) {
+        NSString *primaryKey = [model.class primaryKey];
+        id value = [(id)model valueForKey:primaryKey];
+        MyDBQuery *query = [MyDBQuery createByTableName:tableName];
+        [query query:primaryKey opType:QUERY_EQ value:[NSString stringWithFormat:@"%@",value]];
+        return [self updateByQuery:query model:model];
+    }
+    return NO;
+}
+
+- (BOOL)updateByQuery:(MyDBQuery *)query model:(id)model{
+    if ([self open] && model && model) {
+        BOOL result = [self executeUpdate:[query updateSQL:model]];
+        return result;
     }
     return NO;
 }
@@ -169,6 +178,18 @@ static MyDB *cachesDataBase = nil;
     }
     return NO;
 }
+
+- (BOOL)deleteModle:(id<MyDBModelDelegate>)model tableName:(NSString *)tableName{
+    if (model && [model conformsToProtocol:@protocol(MyDBModelDelegate)]) {
+        NSString *primaryKey = [model.class primaryKey];
+        id value = [(id)model valueForKey:primaryKey];
+        MyDBQuery *query = [MyDBQuery createByTableName:tableName];
+        [query query:primaryKey opType:QUERY_EQ value:[NSString stringWithFormat:@"%@",value]];
+        return [self deleteByQuery:query];
+    }
+    return NO;
+}
+
 
 - (NSArray *)selectByQuery:(MyDBQuery *)query model:(Class)cls{
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
@@ -267,7 +288,7 @@ static MyDB *cachesDataBase = nil;
     return _orderArray;
 }
 
-- (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(NSString*)value{
+- (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(id)value{
     NSString *statement = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,value];
     [self.statement addObject:statement];
     return self;
@@ -293,8 +314,44 @@ static MyDB *cachesDataBase = nil;
     return self;
 }
 
+- (NSString *)updateSQL:(id)model{
+    if (model) {
+        NSMutableString *sqlStr = [[NSMutableString alloc] initWithFormat:@"UPDATE %@ SET",self.tableName];
+        NSArray *ivarNamesAndTypes = [[model class] getIvarNamesAndTypes];
+        for (NSDictionary *dict in ivarNamesAndTypes) {
+            NSString *name = [dict valueForKey:@"name"];
+            id value = [model valueForKey:name];
+            if (value) {
+                [sqlStr appendFormat:@" %@ = '%@',",name,value];
+            }else{
+                [sqlStr appendFormat:@" %@ = NULL,",name];
+            }
+        }
+        [sqlStr deleteCharactersInRange:NSMakeRange(sqlStr.length - 1, 1)];
+        [sqlStr appendString:[self statementStr]];
+        return [sqlStr copy];
+    }
+    return nil;
+}
+
 - (NSString *)selectSQL{
     NSMutableString *sqlStr = [[NSMutableString alloc] initWithFormat:@"SELECT * FROM %@",self.tableName];
+    if ([self statementStr].length > 0) {
+        [sqlStr appendString:[self statementStr]];
+    }
+    return [sqlStr copy];
+}
+
+- (NSString *)deleteSQL{
+    NSMutableString *sqlStr = [[NSMutableString alloc] initWithFormat:@"DELETE FROM %@",self.tableName];
+    if ([self statementStr].length > 0) {
+        [sqlStr appendString:[self statementStr]];
+    }
+    return [sqlStr copy];
+}
+
+- (NSString *)statementStr{
+    NSMutableString *sqlStr = [[NSMutableString alloc] init];
     if (self.statement.count > 0) {
         [sqlStr appendString:@" WHERE"];
         for (NSString *statementStr in self.statement) {
@@ -307,29 +364,15 @@ static MyDB *cachesDataBase = nil;
         for (NSString *orderStr in self.orderArray) {
             [sqlStr appendString:orderStr];
             [sqlStr appendString:@","];
-
         }
         [sqlStr deleteCharactersInRange:NSMakeRange(sqlStr.length - 1, 1)];
         self.isAsc?[sqlStr appendString:@" ASC"]:[sqlStr appendString:@" DESC"];
-    }
+        }
     if (self.limit > 0) {
         [sqlStr appendFormat:@" LIMIT %ld",(long)self.limit];
     }
     if (self.offset > 0) {
         [sqlStr appendFormat:@" OFFSET %ld",(long)self.offset];
-    }
-    NSLog(@"select sql: %@",sqlStr);
-    return [sqlStr copy];
-}
-
-- (NSString *)deleteSQL{
-    NSMutableString *sqlStr = [[NSMutableString alloc] initWithFormat:@"DELETE FROM %@",self.tableName];
-    if (self.statement.count > 0) {
-        [sqlStr appendString:@" WHERE"];
-        for (NSString *statementStr in self.statement) {
-            [sqlStr appendString:@" "];
-            [sqlStr appendString:statementStr];
-        }
     }
     return [sqlStr copy];
 }
