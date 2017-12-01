@@ -24,4 +24,5 @@
 #import "HUD.h"
 #import "MyDB.h"
 #import "MyDefaults.h"
+#import "MyBaseViewController.h"
 #endif /* Header_h */

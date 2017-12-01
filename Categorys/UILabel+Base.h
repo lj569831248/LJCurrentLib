@@ -13,4 +13,6 @@
 + (CGFloat)heightWithFont:(UIFont *)font String:(NSString *)string Width:(CGFloat)width;
 + (CGFloat)widthWithFont:(UIFont *)font String:(NSString *)string Height:(CGFloat)height;
 
+- (void)setColor:(UIColor *)color withString:(NSString *)string;
+
 @end

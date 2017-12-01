@@ -11,6 +11,7 @@
 NSString *const QUERY_EQ        = @"=";
 NSString *const QUERY_NEQ       = @"!=";
 NSString *const QUERY_LIKE      = @"LIKE";
+NSString *const QUERY_CONTAINS  = @"CONTAINS";
 
 static NSString *userDBName   = @"UserDB.db";
 static NSString *cachesDBName = @"CachesDB.db";
@@ -289,8 +290,26 @@ static MyDB *cachesDataBase = nil;
 }
 
 - (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(id)value{
-    NSString *statement = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,value];
-    [self.statement addObject:statement];
+    NSString *condition = [self condition:key opType:opType value:value];
+    [self.statement addObject:condition];
+    return self;
+}
+
+- (MyDBQuery *)AND:(NSString*)key opType:(NSString *)opType value:(id)value{
+    NSString *condition = [self condition:key opType:opType value:value];
+    if (self.statement.count > 0) {
+        condition = [NSString stringWithFormat:@"AND %@",condition];
+    }
+    [self.statement addObject:condition];
+    return self;
+}
+
+- (MyDBQuery *)OR:(NSString*)key opType:(NSString *)opType value:(id)value{
+    NSString *condition = [self condition:key opType:opType value:value];
+    if (self.statement.count > 0) {
+        condition = [NSString stringWithFormat:@"OR %@",condition];
+    }
+    [self.statement addObject:condition];
     return self;
 }
 
@@ -339,6 +358,7 @@ static MyDB *cachesDataBase = nil;
     if ([self statementStr].length > 0) {
         [sqlStr appendString:[self statementStr]];
     }
+    NSLog(@"sql:%@",sqlStr);
     return [sqlStr copy];
 }
 
@@ -348,6 +368,16 @@ static MyDB *cachesDataBase = nil;
         [sqlStr appendString:[self statementStr]];
     }
     return [sqlStr copy];
+}
+
+- (NSString *)condition:(NSString*)key opType:(NSString *)opType value:(id)value{
+    NSString *condition;
+    if ([opType isEqualToString:QUERY_CONTAINS]) {
+        condition = [NSString stringWithFormat:@"%@ %@ '%%%@%%'",key,QUERY_LIKE,value];
+    }else{
+        condition = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,value];
+    }
+    return condition;
 }
 
 - (NSString *)statementStr{

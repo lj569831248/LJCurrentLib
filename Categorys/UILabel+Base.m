@@ -30,4 +30,13 @@
     return actualsize. width;
 }
 
+- (void)setColor:(UIColor *)color withString:(NSString *)string{
+    NSMutableAttributedString *orginAtt = [self.attributedText mutableCopy];
+    NSString *orginString = self.text;
+    //开始根据长度和位置 设置颜色
+    [orginAtt addAttribute:NSForegroundColorAttributeName value:color range:[orginString rangeOfString:string]];
+    //创建label将属性字符串赋值
+    self.attributedText = orginAtt;
+}
+
 @end

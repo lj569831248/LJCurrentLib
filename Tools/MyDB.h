@@ -11,11 +11,17 @@
 #import "MyDBModel.h"
 FOUNDATION_EXPORT NSString* const QUERY_EQ;
 FOUNDATION_EXPORT NSString* const QUERY_NEQ;
+FOUNDATION_EXPORT NSString* const QUERY_CONTAINS;
+
+FOUNDATION_EXPORT NSString* const QUERY_LIKE;
 
 @interface MyDBQuery : NSObject
 @property (copy, nonatomic, readonly)NSString *tableName;
 + (MyDBQuery *)createByTableName:(NSString *)tableName;
 - (MyDBQuery *)query:(NSString*)key opType:(NSString *)opType value:(id)value;
+- (MyDBQuery *)AND:(NSString*)key opType:(NSString *)opType value:(id)value;
+- (MyDBQuery *)OR:(NSString*)key opType:(NSString *)opType value:(id)value;
+
 - (MyDBQuery *)orderBy:(NSArray *)keys;
 - (MyDBQuery *)asc:(BOOL)asc;
 
