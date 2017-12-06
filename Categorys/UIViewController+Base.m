@@ -11,7 +11,6 @@
 @implementation UIViewController (Base)
 
 
-
 - (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }

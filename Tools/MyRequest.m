@@ -7,7 +7,7 @@
 //
 
 #import "MyRequest.h"
-#import <AFNetworking.h>
+#import <AFNetworking/AFNetworking.h>
 @implementation MyRequest
 + (void)requestGetWithUrl:(NSString *)urlString callback:(void (^)(NSURLResponse *response, id responseObject, NSError *error))callback{
     
