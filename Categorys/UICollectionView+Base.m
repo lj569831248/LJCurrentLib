@@ -7,11 +7,10 @@
 //
 
 #import "UICollectionView+Base.h"
-
+#import "UICollectionViewCell+Base.m"
 @implementation UICollectionView (Base)
 
 - (void)registerCellWithClass:(Class)cellClass{
-    
     [self registerNib:[UINib nibWithNibName:[cellClass description] bundle:nil] forCellWithReuseIdentifier:[cellClass description]];
 }
 

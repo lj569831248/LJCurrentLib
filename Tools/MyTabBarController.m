@@ -49,7 +49,7 @@
         NSString *selectColor = [tabbarItmeDict valueForKey:@"selectColor"];
         UIViewController *vc = [[NSClassFromString(className) alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        vc.title = title;
+        vc.title = L(title);
         if (image) {
             UIImage *tabbarNormalImage = [UIImage imageNamed:image];
             tabbarNormalImage=[tabbarNormalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

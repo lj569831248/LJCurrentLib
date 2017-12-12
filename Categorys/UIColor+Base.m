@@ -9,16 +9,24 @@
 
 @implementation UIColor (Base)
 
-- (NSString *)getHexString{
-    NSDictionary *colorDic
-    = [self getRGBDictionary];
-    int r = [colorDic[@"R"] floatValue] * 255;
-    int g = [colorDic[@"G"] floatValue] * 255;
-    int b = [colorDic[@"B"] floatValue] * 255;
-    NSString *red = [NSString stringWithFormat:@"%02x", r];
-    NSString *green = [NSString stringWithFormat:@"%02x", g];
-    NSString *blue = [NSString stringWithFormat:@"%02x", b];
-    return [NSString stringWithFormat:@"#%@%@%@", red, green, blue];
+- (CGFloat)alphaNumber{
+    NSDictionary *dict = [self getRGBDictionary];
+    NSNumber *alpha = [dict valueForKey:@"A"];
+    return [alpha floatValue];
+}
+
+- (BOOL)isDarkColor{
+    if ([self alphaNumber] < 10e-5) {
+        return YES;
+    }
+    const CGFloat *componentColors = CGColorGetComponents(self.CGColor);
+    CGFloat colorBrightness = ((componentColors[0] * 299) + (componentColors[1] * 587) + (componentColors[2] * 114)) / 1000;
+    if (colorBrightness < 0.5){
+        return YES;
+    }
+    else{
+        return NO;
+    }
 }
 
 - (NSDictionary *)getRGBDictionary{
@@ -33,16 +41,26 @@
         b = components[2];
         a = components[3];
     }
-    
     return @{@"R":@(r),
              @"G":@(g),
              @"B":@(b),
              @"A":@(a)};
 }
 
+- (NSString *)getHexString{
+    NSDictionary *colorDic
+    = [self getRGBDictionary];
+    int r = [colorDic[@"R"] floatValue] * 255;
+    int g = [colorDic[@"G"] floatValue] * 255;
+    int b = [colorDic[@"B"] floatValue] * 255;
+    NSString *red = [NSString stringWithFormat:@"%02x", r];
+    NSString *green = [NSString stringWithFormat:@"%02x", g];
+    NSString *blue = [NSString stringWithFormat:@"%02x", b];
+    return [NSString stringWithFormat:@"#%@%@%@", red, green, blue];
+}
+
 + (UIColor *)ColorFromHex:(NSString *)color{
     NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
-    
     // String should be 6 or 8 characters
     if ([cString length] < 6) {
         return [UIColor clearColor];
