@@ -40,8 +40,13 @@
 #define IOS_VERSION [[UIDevice currentDevice].systemVersion floatValue]
 #define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)]?CGSizeEqualToSize(CGSizeMake(1125,2436),[[UIScreen mainScreen] currentMode].size):NO)
 #define ROOT_VC [[UIApplication sharedApplication] keyWindow].rootViewController
+
 #define kScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define kScreenHeight [[UIScreen mainScreen] bounds].size.height
+
+#define kStatusBarHeight (kDevice_Is_iPhoneX?44.0:20.0)
+
+
 
 //定义UIImage对象
 #define IMAGE(A) [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:A ofType:nil]]
@@ -58,4 +63,5 @@
 
 //默认时间格式
 #define kDefaultDateFormat @"yyyy-MM-dd HH:mm:ss"
+
 #endif /* Defines_h */
