@@ -16,7 +16,7 @@
 - (void)showNetworkErrorView:(NSString *)errorMessage;
 - (void)dismissNetworkErrorView:(void (^)())callback;
 
-- (void)showErrorImage:(UIImage *)image;
+- (void)showErrorImage:(UIImage *)image message:(NSString *)message;
 - (void)dismissAllErrorView:(void (^)())callback;
 
 - (void)retryLoding;

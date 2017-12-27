@@ -7,7 +7,7 @@
 //
 
 #import "MyBaseViewController.h"
-
+#import "UIColor+Base.h"
 @interface MyBaseViewController ()
 @property (nonatomic,weak) UIView *networkErrorView;
 @property (nonatomic,weak) UIView *errorImageView;
@@ -39,7 +39,7 @@
     return view;
 }
 
-- (void)showErrorImage:(UIImage *)image{
+- (void)showErrorImage:(UIImage *)image message:(NSString *)message{
     UIView *errorBackgroudView = [self createErrorBackgroundView];
     UIImageView *errorImageView = [[UIImageView alloc] init];
     [errorBackgroudView addSubview:errorImageView];
@@ -47,12 +47,23 @@
 
     errorImageView.image = image;
     errorImageView.backgroundColor = self.view.backgroundColor;
-    if(!image){}
+    
+    if(!image){return;}
     [errorImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(errorBackgroudView);
-        make.size.mas_equalTo(CGSizeMake(200, 200));
+        make.size.mas_equalTo(CGSizeMake(150, 150));
     }];
-    NSLog(@"%@",self.errorBackgroudView);
+    if (message) {
+        UILabel *errorLabel = [[UILabel alloc] init];
+        errorLabel.text = message;
+        errorLabel.textColor = [UIColor ColorFromHex:@"#8a8a8a"];
+        [errorBackgroudView addSubview:errorLabel];
+        
+        [errorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(errorBackgroudView);
+            make.top.equalTo(errorImageView.mas_bottom).with.offset(10.0);
+        }];
+    }
 }
 
 - (void)showNetworkErrorView:(NSString *)errorMessage{
