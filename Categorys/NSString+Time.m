@@ -23,14 +23,26 @@
 }
 
 + (NSString *)getFormatterDate:(NSString *)timeStamp{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:[MY_DEFAULTS defaultDateFormat]];
+    return [self getFormatterDate:timeStamp with:[MY_DEFAULTS defaultDateFormat]];
+}
+
++ (NSString *)getFormatterDate:(NSString *)timeStamp with:(NSString *)formatter{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:formatter];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp integerValue] / 1000];
-    NSString *dateStr = [formatter stringFromDate:date];
+    NSString *dateStr = [dateFormatter stringFromDate:date];
     return dateStr;
 }
 
 - (NSString *)getFormatterDate{
     return [NSString getFormatterDate:self];
+}
+
+- (NSString *)getFormatterDate:(NSString *)formatter{
+    if (formatter == nil) {
+        return [self getFormatterDate];
+    }else{
+        return [NSString getFormatterDate:self with:formatter];
+    }
 }
 @end
