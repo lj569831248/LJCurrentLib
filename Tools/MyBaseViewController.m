@@ -39,6 +39,20 @@
     return view;
 }
 
+- (void)showErrorMessage:(NSString *)message{
+    UIView *errorBackgroudView = [self createErrorBackgroundView];
+    if (message) {
+        UILabel *errorLabel = [[UILabel alloc] init];
+        errorLabel.text = message;
+        errorLabel.textColor = [UIColor ColorFromHex:@"#8a8a8a"];
+        [errorBackgroudView addSubview:errorLabel];
+        [errorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(errorBackgroudView);
+        }];
+    }
+}
+
+
 - (void)showErrorImage:(UIImage *)image message:(NSString *)message{
     UIView *errorBackgroudView = [self createErrorBackgroundView];
     UIImageView *errorImageView = [[UIImageView alloc] init];

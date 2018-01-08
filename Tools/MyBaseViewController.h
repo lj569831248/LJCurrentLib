@@ -19,5 +19,8 @@
 - (void)showErrorImage:(UIImage *)image message:(NSString *)message;
 - (void)dismissAllErrorView:(void (^)())callback;
 
+- (void)showErrorMessage:(NSString *)message;
+
+
 - (void)retryLoding;
 @end

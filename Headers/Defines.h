@@ -68,4 +68,5 @@
 //默认时间格式
 #define kDefaultDateFormat @"yyyy-MM-dd HH:mm:ss"
 
+#define RANDOM(x,y) (arc4random()%(y-x+1)+x)
 #endif /* Defines_h */
