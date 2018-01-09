@@ -56,4 +56,31 @@
     }
     return string;
 }
+
++ (NSString *)formatDBString:(NSString *)sqlText{
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"/" withString:@"//"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"[" withString:@"/["];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"]" withString:@"/]"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"%" withString:@"/%"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"&" withString:@"/&"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"_" withString:@"/_"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"(" withString:@"/("];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@")" withString:@"/)"];
+    return sqlText;
+}
+
+- (NSString *)formatDBString{
+    NSString *sqlText = self;
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"/" withString:@"//"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"[" withString:@"/["];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"]" withString:@"/]"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"%" withString:@"/%"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"&" withString:@"/&"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"_" withString:@"/_"];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@"(" withString:@"/("];
+    sqlText = [sqlText stringByReplacingOccurrencesOfString:@")" withString:@"/)"];
+    return sqlText;
+}
 @end

@@ -7,6 +7,7 @@
 //  数据库相关 没有用到就删掉
 
 #import "MyDB.h"
+#import "NSString+Unicode.h"
 @implementation MyDB
 NSString *const QUERY_EQ        = @"=";
 NSString *const QUERY_NEQ       = @"!=";
@@ -138,7 +139,8 @@ static MyDB *cachesDataBase = nil;
             [nameStr appendFormat:@"%@,",name];
             id value = [model valueForKey:name];
             if (value) {
-                [valueStr appendFormat:@"'%@',",value];
+                NSString *formatValueStr = [NSString stringWithFormat:@"%@",value].formatDBString;
+                [valueStr appendFormat:@"'%@',",formatValueStr];
             }else{
                 [valueStr appendFormat:@"NULL,"];
             }
@@ -341,7 +343,8 @@ static MyDB *cachesDataBase = nil;
             NSString *name = [dict valueForKey:@"name"];
             id value = [model valueForKey:name];
             if (value) {
-                [sqlStr appendFormat:@" %@ = '%@',",name,value];
+                NSString *formatValueStr = [NSString stringWithFormat:@"%@",value].formatDBString;
+                [sqlStr appendFormat:@" %@ = '%@',",name,formatValueStr];
             }else{
                 [sqlStr appendFormat:@" %@ = NULL,",name];
             }
@@ -372,10 +375,11 @@ static MyDB *cachesDataBase = nil;
 
 - (NSString *)condition:(NSString*)key opType:(NSString *)opType value:(id)value{
     NSString *condition;
+    NSString *formatValueStr = [NSString stringWithFormat:@"%@",value].formatDBString;
     if ([opType isEqualToString:QUERY_CONTAINS]) {
-        condition = [NSString stringWithFormat:@"%@ %@ '%%%@%%'",key,QUERY_LIKE,value];
+        condition = [NSString stringWithFormat:@"%@ %@ '%%%@%%'",key,QUERY_LIKE,formatValueStr];
     }else{
-        condition = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,value];
+        condition = [NSString stringWithFormat:@"%@ %@ '%@'",key,opType,formatValueStr];
     }
     return condition;
 }

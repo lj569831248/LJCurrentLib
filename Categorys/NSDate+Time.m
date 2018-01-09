@@ -21,4 +21,9 @@
     return [NSString stringWithFormat:@"%lld",date];
 }
 
++ (NSDate *)dateWithTimeStamp:(NSString *)timeStamp{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeStamp.longLongValue / 1000];
+    return date;
+}
+
 @end

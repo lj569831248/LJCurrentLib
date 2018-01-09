@@ -14,6 +14,6 @@
 //- (NSString *)descriptionWithNO_Unicode;
 
 //将字典打印为 model 的属性格式可以直接复制粘贴 Model 的属性
-- (void)descriptionWithModelStyle;
+//- (void)descriptionWithModelStyle;
 
 @end

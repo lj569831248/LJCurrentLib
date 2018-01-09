@@ -30,4 +30,8 @@
  */
 +(NSString *)MD5ForUpper16Bate:(NSString *)str;
 
++ (NSString *)formatDBString:(NSString *)sqlText;
+
+- (NSString *)formatDBString;
+
 @end

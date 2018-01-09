@@ -12,4 +12,6 @@
 
 - (NSString *)timeStamp;
 - (NSString *)secondTimestamp;
+
++ (NSDate *)dateWithTimeStamp:(NSString *)timeStamp;
 @end
