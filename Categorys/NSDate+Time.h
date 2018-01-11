@@ -14,4 +14,8 @@
 - (NSString *)secondTimestamp;
 
 + (NSDate *)dateWithTimeStamp:(NSString *)timeStamp;
+
++ (NSDate *)dateFromFormatterDateString:(NSString *)formatterDate;
++ (NSDate *)dateFromFormatterDateString:(NSString *)formatterDate formatter:(NSString *)formatter;
+
 @end

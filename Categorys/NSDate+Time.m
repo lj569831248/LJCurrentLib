@@ -26,4 +26,16 @@
     return date;
 }
 
++ (NSDate *)dateFromFormatterDateString:(NSString *)formatterDate{
+    return [self dateFromFormatterDateString:formatterDate formatter:[MY_DEFAULTS defaultDateFormat]];
+}
+
+
++ (NSDate *)dateFromFormatterDateString:(NSString *)formatterDate formatter:(NSString *)formatter{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:formatter];
+    return [dateFormatter dateFromString:formatterDate];
+}
+
+
 @end
