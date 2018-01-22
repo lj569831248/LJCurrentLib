@@ -8,6 +8,8 @@
 
 #import "MyDB.h"
 #import "NSString+Unicode.h"
+#import "NSObject+Base.h"
+
 @implementation MyDB
 NSString *const QUERY_EQ        = @"=";
 NSString *const QUERY_NEQ       = @"!=";

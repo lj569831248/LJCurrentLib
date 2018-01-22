@@ -7,7 +7,7 @@
 //
 
 #import "MyTabBar.h"
-
+#import "Defines.h"
 @interface MyTabBar ()
 
 @end

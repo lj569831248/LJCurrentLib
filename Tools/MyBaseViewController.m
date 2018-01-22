@@ -5,9 +5,11 @@
 //  Created by Jon on 2017/12/1.
 //  Copyright © 2017年 droi. All rights reserved.
 //
-
+#import <Masonry/Masonry.h>
 #import "MyBaseViewController.h"
 #import "UIColor+Base.h"
+#import "Defines.h"
+
 @interface MyBaseViewController ()
 @property (nonatomic,weak) UIView *networkErrorView;
 @property (nonatomic,weak) UIView *errorImageView;

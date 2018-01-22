@@ -9,6 +9,8 @@
 #import "MyTabBarController.h"
 #import "UIColor+Base.h"
 #import "MyTabBar.h"
+#import "Defines.h"
+
 @interface MyTabBarController ()
 @property (assign, nonatomic)MyTabBarStyle style;
 @end
@@ -76,9 +78,5 @@
         [self.tabDelegate didChickCenterButton:sender];
     }
 }
-
-
-
-
 
 @end

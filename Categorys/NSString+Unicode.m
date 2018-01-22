@@ -5,9 +5,8 @@
 //  Created by liaojun on 2017/11/29.
 //  Copyright © 2017年 droi. All rights reserved.
 //
-
-#import "NSString+Unicode.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import "NSString+Unicode.h"
 
 @implementation NSString (Unicode)
 +(NSString *)MD5ForLower32Bate:(NSString *)str{
@@ -56,6 +55,17 @@
     }
     return string;
 }
+- (NSString *)base64Encode{
+    NSData *encodeData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64String = [encodeData base64EncodedStringWithOptions:0];
+    return base64String;
+}
+- (NSString *)base64Decode{
+    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:self options:0];
+    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
+    return decodedString;
+}
+
 
 + (NSString *)formatDBString:(NSString *)sqlText{
     sqlText = [sqlText stringByReplacingOccurrencesOfString:@"'" withString:@"''"];

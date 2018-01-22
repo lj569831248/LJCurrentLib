@@ -32,6 +32,7 @@
 #define L(key) NSLocalizedString(key, nil)
 #define INFO_PLIST [[NSBundle mainBundle] infoDictionary]
 #define USER_DEFAULTS [NSUserDefaults standardUserDefaults]
+
 #define MY_DEFAULTS [MyDefaults standardDefaults]
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)

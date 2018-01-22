@@ -30,6 +30,10 @@
  */
 +(NSString *)MD5ForUpper16Bate:(NSString *)str;
 
+- (NSString *)base64Encode;
+- (NSString *)base64Decode;
+
+
 + (NSString *)formatDBString:(NSString *)sqlText;
 
 - (NSString *)formatDBString;

@@ -7,7 +7,8 @@
 //
 
 #import "NSDate+Time.h"
-
+#import "Defines.h"
+#import "MyDefaults.h"
 @implementation NSDate (Time)
 
 - (NSString *)timeStamp{

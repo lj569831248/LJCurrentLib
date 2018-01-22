@@ -7,6 +7,7 @@
 //
 
 #import "MyDefaults.h"
+#import "Defines.h"
 
 static MyDefaults *standardDefaults = nil;
 

@@ -8,6 +8,8 @@
 
 #import "MyCachesTool.h"
 #import "MySandboxPath.h"
+#import "Defines.h"
+
 @implementation MyCachesTool
 
 + (long long) fileSizeAtPath:(NSString*) filePath{
