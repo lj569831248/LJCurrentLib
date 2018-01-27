@@ -46,7 +46,8 @@
 #define kScreenHeight [[UIScreen mainScreen] bounds].size.height
 
 #define kStatusBarHeight (kDevice_Is_iPhoneX?44.0:20.0)
-
+#define kNavigationBarHeight (kStatusBarHeight + 44.0)
+#define kTabbarHeight   (kDevice_Is_iPhoneX?83:49.0)
 
 
 //定义UIImage对象

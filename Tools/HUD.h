@@ -12,12 +12,14 @@
 @interface HUD : MBProgressHUD
 + (void)show;
 + (void)showText:(NSString *)text;
++ (void)showText:(NSString *)text delay:(NSTimeInterval)delay;
++ (void)showTextThenDismiss:(NSString *)text;
+
 + (void)showProgress:(CGFloat)progress;
 + (void)showProgress:(CGFloat)progress text:(NSString *)text;
 
 + (void)dismiss;
-+ (void)dismissCompletion:(MBProgressHUDCompletionBlock)completionBlock;
-+ (void)dismissAfterDelay:(NSTimeInterval)delay completion:(MBProgressHUDCompletionBlock)completionBlock;
-
 + (void)dismissAfterDelay:(NSTimeInterval)delay;
++ (void)dismissAfterDelay:(NSTimeInterval)delay completion:(MBProgressHUDCompletionBlock)completionBlock;
++ (void)dismissCompletion:(MBProgressHUDCompletionBlock)completionBlock;
 @end

@@ -13,6 +13,7 @@
 @end
 @implementation HUD
 
+static const NSTimeInterval kHUDDefaultDelayTime = 0.8;
 static HUD *_instance = nil;
 
 + (void)instance{
@@ -33,6 +34,15 @@ static HUD *_instance = nil;
     _instance.mode = MBProgressHUDModeText;
     _instance.label.text = text;
     _instance.label.numberOfLines = 0;
+}
+
++ (void)showText:(NSString *)text delay:(NSTimeInterval)delay{
+    [self showText:text];
+    [self dismissAfterDelay:delay];
+}
+
++ (void)showTextThenDismiss:(NSString *)text{
+    [self showText:text delay:kHUDDefaultDelayTime];
 }
 
 + (void)showProgress:(CGFloat)progress{
@@ -69,11 +79,12 @@ static HUD *_instance = nil;
 }
 
 + (void)dismissCompletion:(MBProgressHUDCompletionBlock)completionBlock{
-    [self dismissAfterDelay:0.8 completion:completionBlock];
+    [self dismissAfterDelay:kHUDDefaultDelayTime completion:completionBlock];
 }
 
 + (void)dismiss{
-    [self dismissAfterDelay:0.8];
+    [self dismissAfterDelay:kHUDDefaultDelayTime];
 }
+
 
 @end

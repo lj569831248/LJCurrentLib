@@ -11,7 +11,6 @@
 @implementation UITableView (Base)
 
 - (void)registerCellWithClass:(Class)cellClass{
-    
     [self registerNib:[UINib nibWithNibName:[cellClass description] bundle:nil] forCellReuseIdentifier:[cellClass description]];
 }
 
