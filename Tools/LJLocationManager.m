@@ -42,7 +42,7 @@ static LJLocationManager *standardLocationManager = nil;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
         //定位频率,每隔多少米定位一次
         //        CLLocationDistance distance = 10.0;
-        //        self.locationManager.distanceFilter = distance;
+        self.locationManager.distanceFilter = CLLocationDistanceMax;
     }
     return self;
 }
@@ -120,9 +120,13 @@ static LJLocationManager *standardLocationManager = nil;
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    CLLocation *currentLocation = [locations lastObject];
-    SAFE_BLOCK(self.locationBlock,currentLocation);
     [self.locationManager stopUpdatingLocation];
+    CLLocation *currentLocation = [locations lastObject];
+    CLLocation *newLocation = locations.lastObject;
+    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
+    if (locationAge > 5.0) return;
+    if (newLocation.horizontalAccuracy < 0) return;
+    SAFE_BLOCK(self.locationBlock,currentLocation);
 }
 
 /** 不能获取位置信息时调用*/
