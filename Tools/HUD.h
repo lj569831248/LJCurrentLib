@@ -15,6 +15,8 @@
 + (void)showText:(NSString *)text delay:(NSTimeInterval)delay;
 + (void)showTextThenDismiss:(NSString *)text;
 
++ (void)showTextAndLoding:(NSString *)text;
+
 + (void)showProgress:(CGFloat)progress;
 + (void)showProgress:(CGFloat)progress text:(NSString *)text;
 

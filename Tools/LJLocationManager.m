@@ -70,12 +70,12 @@ static LJLocationManager *standardLocationManager = nil;
 
 
 - (void)getLocationCoordinate:(LocationBlock) locationBlock{
+    self.locationBlock = locationBlock;
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0){
         [self.locationManager requestLocation];
     }else{
         [self.locationManager startUpdatingLocation];
     }
-    self.locationBlock = locationBlock;
 }
 
 - (void)getCity:(void(^)(NSString *cityInfo)) cityInfoBlock{

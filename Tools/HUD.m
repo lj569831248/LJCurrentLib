@@ -32,6 +32,7 @@ static HUD *_instance = nil;
 + (void)showText:(NSString *)text{
     [self instance];
     _instance.mode = MBProgressHUDModeText;
+    _instance.animationType = MBProgressHUDAnimationZoom;
     _instance.label.text = text;
     _instance.label.numberOfLines = 0;
 }
@@ -39,6 +40,14 @@ static HUD *_instance = nil;
 + (void)showText:(NSString *)text delay:(NSTimeInterval)delay{
     [self showText:text];
     [self dismissAfterDelay:delay];
+}
+
++ (void)showTextAndLoding:(NSString *)text{
+    [self instance];
+    _instance.mode = MBProgressHUDModeIndeterminate;
+    _instance.animationType = MBProgressHUDAnimationZoom;
+    _instance.label.text = text;
+    _instance.label.numberOfLines = 0;
 }
 
 + (void)showTextThenDismiss:(NSString *)text{
