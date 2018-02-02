@@ -122,10 +122,6 @@ static LJLocationManager *standardLocationManager = nil;
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     [self.locationManager stopUpdatingLocation];
     CLLocation *currentLocation = [locations lastObject];
-    CLLocation *newLocation = locations.lastObject;
-    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
-    if (locationAge > 5.0) return;
-    if (newLocation.horizontalAccuracy < 0) return;
     SAFE_BLOCK(self.locationBlock,currentLocation);
 }
 
