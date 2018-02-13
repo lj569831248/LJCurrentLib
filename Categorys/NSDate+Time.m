@@ -38,5 +38,11 @@
     return [dateFormatter dateFromString:formatterDate];
 }
 
+- (NSString *)formatterDate{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:[MY_DEFAULTS defaultDateFormat]];
+    return [dateFormatter stringFromDate:self];
+}
+
 
 @end
