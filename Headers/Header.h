@@ -20,7 +20,6 @@
 #import "UICollectionViewCell+Base.h"
 #import "NSDictionary+Base.h"
 #import "UINavigationController+Base.h"
-#import "UIApplication+Visible.h"
 #pragma mark tools
 #import "HUD.h"
 #import "MyDB.h"
