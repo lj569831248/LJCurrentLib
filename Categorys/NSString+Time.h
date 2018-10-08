@@ -23,6 +23,8 @@
  */
 + (NSString *)getSecondTimestamp;
 
++ (NSString *)getNowFotmatterDate;
+
 + (NSString *)getFormatterDate:(NSString *)timeStamp;
 + (NSString *)getFormatterDate:(NSString *)timeStamp with:(NSString *)formatter;
 

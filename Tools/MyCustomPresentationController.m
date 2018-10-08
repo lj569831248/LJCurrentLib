@@ -91,6 +91,7 @@
 
 #pragma mark 点击了背景遮罩view
 - (void)dimmingViewTapped:(UITapGestureRecognizer*)sender {
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 

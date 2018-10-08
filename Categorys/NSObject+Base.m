@@ -10,9 +10,9 @@
 #import <objc/runtime.h>
 @implementation NSObject (Base)
 
-+ (void)replaceMethod:(Class)class originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
-    Method originalMethod = class_getInstanceMethod(class, originalSelector);
-    Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
++ (void)replaceMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
+    Method originalMethod = class_getInstanceMethod(class1, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod(class1, swizzledSelector);
     if (!originalMethod || !swizzledMethod) {
         return;
     }
@@ -21,8 +21,8 @@
     const char *originalType = method_getTypeEncoding(originalMethod);
     const char *swizzledType = method_getTypeEncoding(swizzledMethod);
     
-    class_replaceMethod(class,originalSelector,swizzledIMP,swizzledType);
-    class_replaceMethod(class,swizzledSelector,originalIMP,originalType);
+    class_replaceMethod(class1,originalSelector,swizzledIMP,swizzledType);
+    class_replaceMethod(class1,swizzledSelector,originalIMP,originalType);
 }
 
 /*

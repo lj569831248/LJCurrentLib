@@ -118,9 +118,9 @@
 
 ///< 移除此view上的所有子视图
 - (void)removeAllSubviews {
-    for (UIView *view in self.subviews) {
-        [view removeFromSuperview];
+    //[self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    while (self.subviews.count) {
+        [self.subviews.lastObject removeFromSuperview];
     }
-    return;
 }
 @end

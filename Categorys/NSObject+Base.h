@@ -15,7 +15,7 @@
  @param originalSelector 原方法
  @param swizzledSelector 新方法
  */
-+ (void)replaceMethod:(Class)class originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;
++ (void)replaceMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;
 
 
 /**

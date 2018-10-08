@@ -11,7 +11,7 @@
 @interface NSString (Unicode)
 
 /**
- *  MD5加密, 32位 小写
+ *  MD5, 32位 小写
  */
 +(NSString *)MD5ForLower32Bate:(NSString *)str;
 

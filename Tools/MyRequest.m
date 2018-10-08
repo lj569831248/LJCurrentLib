@@ -26,6 +26,8 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:paramData];
+    [request setValue:[NSString stringWithFormat:@"%lu",paramData.length] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"text/html;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:delegate delegateQueue:queue];

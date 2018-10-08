@@ -27,6 +27,10 @@
     return [self getFormatterDate:timeStamp with:[MY_DEFAULTS defaultDateFormat]];
 }
 
++ (NSString *)getNowFotmatterDate{
+    return [self getFormatterDate:[self getTimeStamp]];
+}
+
 + (NSString *)getFormatterDate:(NSString *)timeStamp with:(NSString *)formatter{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:formatter];

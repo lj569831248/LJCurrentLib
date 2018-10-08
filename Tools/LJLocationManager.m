@@ -13,6 +13,7 @@
 @property (nonatomic , strong)  CLLocationManager *locationManager;
 @property (copy, nonatomic)LocationBlock locationBlock;
 
+@property (assign, nonatomic)BOOL isFinished;
 @end
 
 @implementation LJLocationManager
@@ -71,6 +72,7 @@ static LJLocationManager *standardLocationManager = nil;
 
 - (void)getLocationCoordinate:(LocationBlock) locationBlock{
     self.locationBlock = locationBlock;
+    self.isFinished = NO;
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0){
         [self.locationManager requestLocation];
     }else{
@@ -120,7 +122,11 @@ static LJLocationManager *standardLocationManager = nil;
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    [self.locationManager stopUpdatingLocation];
+    if (self.isFinished) {
+        [self stopUpdatingLocation];
+        return;
+    }
+    self.isFinished = YES;
     CLLocation *currentLocation = [locations lastObject];
     SAFE_BLOCK(self.locationBlock,currentLocation);
 }

@@ -20,12 +20,26 @@
 #ifndef Defines_h
 #define Defines_h
 
+
+#ifndef dispatch_main_async_safe
+#define dispatch_main_async_safe(block)\
+if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
+block();\
+} else {\
+dispatch_async(dispatch_get_main_queue(), block);\
+}
+#endif
+
+
+
 //DB 相关
 #define USER_DB [MyDB standardUserDataBase]
 #define CACHES_DB [MyDB standardCachesDataBase]
 
 //safe 相关
 #define SAFE_BLOCK(block,...) if(block){block(__VA_ARGS__);}  //宏定义
+#define SAFE_SET_VALUE(Object,Str) (Object==nil || [Object length] == 0 ?Str:Object)
+
 #define kWeakSelf(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
 //系统 相关
@@ -40,7 +54,7 @@
 
 #define IOS_VERSION [[UIDevice currentDevice].systemVersion floatValue]
 #define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)]?CGSizeEqualToSize(CGSizeMake(1125,2436),[[UIScreen mainScreen] currentMode].size):NO)
-#define ROOT_VC [[UIApplication sharedApplication] keyWindow].rootViewController
+#define ROOT_VC [[UIApplication sharedApplication] visibleViewController]
 #define ROOT_NAV [[UIApplication sharedApplication] visibleNavigationController]
 #define kScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define kScreenHeight [[UIScreen mainScreen] bounds].size.height
@@ -54,7 +68,8 @@
 #define IMAGE(A)  [UIImage imageNamed:A]
 
 
-#define URL(A) [NSURL URLWithString:A]
+#define URL(A) [NSURL URLWithString:[A stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]
+
 #define FILE_URL(A) [NSURL fileURLWithPath:A]
 //color相关
 #define kRandomColor [UIColor colorWithRed:(arc4random()% 255)/255.0 green:(arc4random()%255)/255.0 blue:(arc4random()%255)/255.0 alpha:1]
@@ -71,4 +86,6 @@
 #define kDefaultDateFormat @"yyyy-MM-dd HH:mm:ss"
 
 #define RANDOM(x,y) (arc4random()%(y-x+1)+x)
+
+#define kClearBackTitle  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
 #endif /* Defines_h */
