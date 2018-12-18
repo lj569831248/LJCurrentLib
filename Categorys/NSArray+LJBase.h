@@ -11,4 +11,6 @@
 @interface NSArray (LJBase)
 - (NSString *)descriptionWithPostParam;
 
+- (BOOL)containsString:(NSString *)string;
+
 @end

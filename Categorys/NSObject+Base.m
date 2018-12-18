@@ -52,4 +52,21 @@
     free(ivars);
     return [mArray copy];
 }
+
+/*
+{name = boolT;type = B;},
+{name = BOOLT;type = B;},
+{name = BooleanT;type = C;},
+{name = charT;type = c;},
+{name = intT;type = i;},
+{name = longT;type = q;},
+{name = longlongT;type = q;},
+{name = floatT;type = f;},
+{name = NSIntegerT;type = q;},
+{name = NSUIntegerT;type = Q;},
+{name = doubleT;type = d;},
+{name = CGFloatT;type = d;},
+{name = NSStringT;type = NSString;},
+{name = NSNumberT;type = NSNumber;}
+ */
 @end

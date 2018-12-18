@@ -53,21 +53,33 @@ dispatch_async(dispatch_get_main_queue(), block);\
 #define IS_PAD (UI_USER_INTERFACE_IDIOM()== UIUserInterfaceIdiomPad)
 
 #define IOS_VERSION [[UIDevice currentDevice].systemVersion floatValue]
+
 #define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)]?CGSizeEqualToSize(CGSizeMake(1125,2436),[[UIScreen mainScreen] currentMode].size):NO)
+
 #define ROOT_VC [[UIApplication sharedApplication] visibleViewController]
+
 #define ROOT_NAV [[UIApplication sharedApplication] visibleNavigationController]
+
 #define kScreenWidth [[UIScreen mainScreen] bounds].size.width
 #define kScreenHeight [[UIScreen mainScreen] bounds].size.height
 
-#define kStatusBarHeight (kDevice_Is_iPhoneX?44.0:20.0)
+//iPhoneX / iPhoneXS
+#define  kIsIphoneX_XS     (kScreenWidth == 375.f && kScreenHeight == 812.f ? YES : NO)
+//iPhoneXR / iPhoneXSMax
+#define  kIsIphoneXR_XSMax    (kScreenWidth == 414.f && kScreenHeight == 896.f ? YES : NO)
+//异性全面屏
+#define   kIsXScreen    (kIsIphoneX_XS || kIsIphoneXR_XSMax) 
+
+
+#define kStatusBarHeight (kIsXScreen?44.0:20.0)
 #define kNavigationBarHeight (kStatusBarHeight + 44.0)
-#define kTabbarHeight   (kDevice_Is_iPhoneX?83:49.0)
+#define kTabbarHeight   (kIsXScreen?83:49.0)
 
 
 //定义UIImage对象
 #define IMAGE(A)  [UIImage imageNamed:A]
 
-
+//这种url方法可以防止含中文的地址报错的情况
 #define URL(A) [NSURL URLWithString:[A stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]]
 
 #define FILE_URL(A) [NSURL fileURLWithPath:A]

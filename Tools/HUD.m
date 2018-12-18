@@ -22,6 +22,7 @@ static HUD *_instance = nil;
         _instance.bezelView.backgroundColor = [UIColor blackColor];
         _instance.bezelView.alpha = 0.8f;
         _instance.contentColor = [UIColor whiteColor];//将转圈和文字设置成白色
+        _instance.userInteractionEnabled = NO;      //这个方法允许hud显示的时候点击
     }
 }
 

@@ -90,24 +90,36 @@
     NSLog(@"%@",strM);
 }
 
+//返回标准json格式
 - (NSString *)descriptionWithPostParam{
     NSMutableString *strM = [NSMutableString string];
     [strM appendString:@"{"];
     [self enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [strM appendString:@"\n"];
-        NSString *className = NSStringFromClass([obj class]) ;
-        if ([className isEqualToString:@"__NSCFString"] | [className isEqualToString:@"__NSCFConstantString"] | [className isEqualToString:@"NSTaggedPointerString"]) {
+        if ([obj isKindOfClass:[NSString class]]) {
             [strM appendFormat:@" \"%@\":\"%@\",",key,obj];
-        }else if ([className isEqualToString:@"__NSCFDictionary"]){
+        }else if ([obj isKindOfClass:[NSDictionary class]]){
             NSString *dictString = [obj descriptionWithPostParam];
             [strM appendFormat:@" %@",dictString];
-        }else if ([className isEqualToString:@"__NSCFNumber"]){
+        }else if ([obj isKindOfClass:[NSNumber class]]){
             [strM appendFormat:@" \"%@\":%@,",key,obj];
-        }else if ([className isEqualToString:@"__NSSingleObjectArrayI"]||[className isEqualToString:@"__NSArrayI"]){
+        }else if ([obj isKindOfClass:[NSArray class]]){
             NSString *arrayString = [obj descriptionWithPostParam];
             [strM appendFormat:@" %@",arrayString];
-
         }
+//        NSString *className = NSStringFromClass([obj class]) ;
+//        if ([className isEqualToString:@"__NSCFString"] | [className isEqualToString:@"__NSCFConstantString"] | [className isEqualToString:@"NSTaggedPointerString"]) {
+//            [strM appendFormat:@" \"%@\":\"%@\",",key,obj];
+//        }else if ([className isEqualToString:@"__NSCFDictionary"]){
+//            NSString *dictString = [obj descriptionWithPostParam];
+//            [strM appendFormat:@" %@",dictString];
+//        }else if ([className isEqualToString:@"__NSCFNumber"]){
+//            [strM appendFormat:@" \"%@\":%@,",key,obj];
+//        }else if ([className isEqualToString:@"__NSSingleObjectArrayI"]||[className isEqualToString:@"__NSArrayI"]){
+//            NSString *arrayString = [obj descriptionWithPostParam];
+//            [strM appendFormat:@" %@",arrayString];
+//
+//        }
     }];
     [strM deleteCharactersInRange:NSMakeRange(strM.length - 1, 1)];
     [strM appendString:@"\n}"];
