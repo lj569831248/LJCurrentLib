@@ -100,4 +100,6 @@ dispatch_async(dispatch_get_main_queue(), block);\
 #define RANDOM(x,y) (arc4random()%(y-x+1)+x)
 
 #define kClearBackTitle  self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
+
+#define kDeallocLog -(void)dealloc{NSLog(@"%@ dealloc",self.class);}
 #endif /* Defines_h */
