@@ -21,6 +21,13 @@
 #define Defines_h
 
 
+#ifdef DEBUG
+#define MyString [NSString stringWithFormat:@"%s", __FILE__].lastPathComponent
+#define NSLog(...) printf("%s 第%d行: %s\n\n",[MyString UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+#else
+#define NSLog(...)
+#endif
+
 #ifndef dispatch_main_async_safe
 #define dispatch_main_async_safe(block)\
 if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == 0) {\
