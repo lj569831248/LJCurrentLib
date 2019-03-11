@@ -21,12 +21,12 @@
 #define Defines_h
 
 
-#ifdef DEBUG
-#define MyString [NSString stringWithFormat:@"%s", __FILE__].lastPathComponent
-#define NSLog(...) printf("%s 第%d行: %s\n\n",[MyString UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
-#else
-#define NSLog(...)
-#endif
+//#ifdef DEBUG
+//#define MyString [NSString stringWithFormat:@"%s", __FILE__].lastPathComponent
+//#define NSLog(...) printf("%s 第%d行: %s\n\n",[MyString UTF8String] ,__LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+//#else
+//#define NSLog(...)
+//#endif
 
 #ifndef dispatch_main_async_safe
 #define dispatch_main_async_safe(block)\
