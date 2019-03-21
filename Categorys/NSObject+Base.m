@@ -32,11 +32,14 @@
  转换为
  name = series;
  type = NSString;
+20190318更新 之前只获取了当前类的属性列表,现在会获取父类直到NSObject的属性列表
 */
 + (NSArray *)getIvarNamesAndTypes{
     unsigned int outCount = 0;
     NSMutableArray *mArray = [[NSMutableArray alloc] init];
-    Ivar * ivars = class_copyIvarList([self class], &outCount);
+    Class cls = [self class];
+    while (cls!= [NSObject class]) {
+    Ivar * ivars = class_copyIvarList(cls, &outCount);
     for (unsigned int i = 0; i < outCount; i ++) {
         Ivar ivar = ivars[i];
         const char * name = ivar_getName(ivar);
@@ -49,7 +52,10 @@
         NSDictionary *dict = @{@"name":nameS,@"type":typeS};
         [mArray addObject:dict];
     }
-    free(ivars);
+        free(ivars);
+        cls = class_getSuperclass(cls);
+
+    }
     return [mArray copy];
 }
 
