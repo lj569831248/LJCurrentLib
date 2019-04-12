@@ -20,6 +20,7 @@
 #ifndef Defines_h
 #define Defines_h
 
+#define DebugLog(FORMAT, ...) fprintf(stderr,"[%s:%d行] %s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
 
 //#ifdef DEBUG
 //#define MyString [NSString stringWithFormat:@"%s", __FILE__].lastPathComponent
