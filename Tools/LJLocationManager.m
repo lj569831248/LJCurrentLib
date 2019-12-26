@@ -6,7 +6,9 @@
 //  Copyright © 2018年 jon. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "LJLocationManager.h"
+#import "Defines.h"
 
 @interface LJLocationManager ()<CLLocationManagerDelegate>
 

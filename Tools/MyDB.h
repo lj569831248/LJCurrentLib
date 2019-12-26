@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <FMDB/FMDB.h>
+#import <FMDB.h>
+
 #import "MyDBModel.h"
 FOUNDATION_EXPORT NSString* const QUERY_EQ;
 FOUNDATION_EXPORT NSString* const QUERY_NEQ;

@@ -5,9 +5,9 @@
 //  Created by Jon on 2019/4/22.
 //  Copyright © 2019 jingyao. All rights reserved.
 //
-
+             
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LJDeviceTool : NSObject
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  强制改变屏幕方向
  @param orientation UIInterfaceOrientation
  */
-+ (void)interfaceOrientation:(UIInterfaceOrientation)orientation;
++ (void)interfaceOrientation:(UIInterfaceOrientation) orientation;
 
 @end
 
