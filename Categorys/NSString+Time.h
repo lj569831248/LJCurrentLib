@@ -32,4 +32,6 @@
 - (NSString *)getFormatterDate:(NSString *)formatter;
 
 + (NSString*)getWeekDay:(NSString*)currentStr;
+
+
 @end

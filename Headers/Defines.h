@@ -103,7 +103,7 @@ dispatch_async(dispatch_get_main_queue(), block);\
 #define kColorFromRGB(r, g, b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
 
 //默认时间格式
-#define kDefaultDateFormat @"yyyy-MM-dd HH:mm:ss"
+#define kDefaultDateFormat @"yyyyMMdd HH:mm:ss"
 
 #define RANDOM(x,y) (arc4random()%(y-x+1)+x)
 

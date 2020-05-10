@@ -10,6 +10,6 @@
 
 @interface UINavigationController (Base)
 
-- (void)pushViewControllerAndHideBottomBar:(UIViewController *)viewController;
+- (void)pushViewControllerAndHideBottomBar:(UIViewController *)viewController animated:(BOOL)animated;
 
 @end

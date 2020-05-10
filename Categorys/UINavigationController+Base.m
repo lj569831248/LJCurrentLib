@@ -11,25 +11,19 @@
 
 @implementation UINavigationController (Base)
 
-//+ (void)load{
-//    NSLog(@"%@ Load",[self class]);
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        Class class = [self class];
-//        SEL originalSelectorPush = @selector(pushViewController:animated:);
-//        SEL swizzledSelectorPush = @selector(my_pushViewController:animated:);
-//        [self replaceMethod:class originalSelector:originalSelectorPush swizzledSelector:swizzledSelectorPush];
-//    });
-//}
++ (void)load{
+    NSLog(@"UINavigationController(Base)---load 替换pushViewController 为 pushViewControllerAndHideBottomBar 用来push隐藏tabbar");
+    [self replaceInstanceMethodWithOriginalSelector:@selector(pushViewController:animated:) swizzledSelector:@selector(pushViewControllerAndHideBottomBar:animated:)];
+}
 
 
 - (UIViewController *)childViewControllerForStatusBarStyle{
     return self.topViewController;
 }
 
-- (void)pushViewControllerAndHideBottomBar:(UIViewController *)viewController{
+- (void)pushViewControllerAndHideBottomBar:(UIViewController *)viewController animated:(BOOL)animated{
     viewController.hidesBottomBarWhenPushed = YES;
-    [self pushViewController:viewController animated:YES];
+    [self pushViewControllerAndHideBottomBar:viewController animated:animated];
 }
 
 @end

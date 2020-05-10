@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 @implementation NSObject (Base)
 
-+ (void)replaceMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
++ (void)replaceInstanceMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
     Method originalMethod = class_getInstanceMethod(class1, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class1, swizzledSelector);
     if (!originalMethod || !swizzledMethod) {
@@ -25,6 +25,30 @@
     class_replaceMethod(class1,swizzledSelector,originalIMP,originalType);
 }
 
+
++ (void)replaceClassMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
+    Method originalMethod = class_getClassMethod(class1, originalSelector);
+    Method swizzledMethod = class_getClassMethod(class1, swizzledSelector);
+    if (!originalMethod || !swizzledMethod) {
+        return;
+    }
+    IMP originalIMP = method_getImplementation(originalMethod);
+    IMP swizzledIMP = method_getImplementation(swizzledMethod);
+    const char *originalType = method_getTypeEncoding(originalMethod);
+    const char *swizzledType = method_getTypeEncoding(swizzledMethod);
+    
+    class_replaceMethod(class1,originalSelector,swizzledIMP,swizzledType);
+    class_replaceMethod(class1,swizzledSelector,originalIMP,originalType);
+}
+
+
++ (void)replaceInstanceMethodWithOriginalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
+    [self replaceInstanceMethod:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
+}
+
++ (void)replaceClassMethodWithOriginalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
+    [self replaceClassMethod:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
+}
 /*
  原始为
  name = "_series";
