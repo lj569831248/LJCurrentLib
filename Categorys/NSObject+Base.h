@@ -22,7 +22,7 @@
 + (void)replaceInstanceMethodWithOriginalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;
 
 ///  利用 runtime 替换类方法
-/// @param class1 需要替换的类
+/// @param class1 需要替换的类的元类 Class aClass = object_getClass((id)self);
 /// @param originalSelector 原方法
 /// @param swizzledSelector 新方法
 + (void)replaceClassMethod:(Class)class1 originalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector;

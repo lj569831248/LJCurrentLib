@@ -47,7 +47,8 @@
 }
 
 + (void)replaceClassMethodWithOriginalSelector:(SEL)originalSelector swizzledSelector:(SEL)swizzledSelector{
-    [self replaceClassMethod:[self class] originalSelector:originalSelector swizzledSelector:swizzledSelector];
+    Class aClass = object_getClass((id)self);
+    [self replaceClassMethod:aClass originalSelector:originalSelector swizzledSelector:swizzledSelector];
 }
 /*
  原始为
