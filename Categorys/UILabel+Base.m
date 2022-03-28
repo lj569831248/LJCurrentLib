@@ -27,7 +27,7 @@
     NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,nil];
     //ios7方法，获取文本需要的size，限制高度
     CGSize  actualsize =[string boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-    return actualsize. width;
+    return actualsize.width;
 }
 
 - (void)setColor:(UIColor *)color withString:(NSString *)string{
